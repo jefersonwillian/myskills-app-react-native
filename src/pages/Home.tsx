@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,17 +8,33 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import {Button} from './components/Button';
-import {SkillCard} from './components/SkillCard';
+import { Button } from './components/Button';
+import { SkillCard } from './components/SkillCard';
+
+interface ISkillDate {
+  id: string;
+  name: string;
+}
 
 export function Home() {
-  const [newSkill, setNewskill] = useState<string>();
-  const [mySkills, setMySkills] = useState<Array<string>>([]);
-  const [gretting, setGretting] = useState<string>();
+  const [newSkill, setNewskill] = useState('');
+  const [mySkills, setMySkills] = useState<Array<ISkillDate>>([]);
+  const [gretting, setGretting] = useState('');
 
   function handleAddNewSkill() {
-    setMySkills((oldState: Array<any>) => [...oldState, newSkill]);
+    const data: ISkillDate = {
+      id: String(new Date().getTime()),
+      name: newSkill,
+    };
+    setMySkills(oldState => [...oldState, data]);
     setNewskill('');
+  }
+
+  function handleRemoveSkill(id: string) {
+    setMySkills(oldState => oldState.filter(
+      skill => skill.id !== id
+    ))
+    
   }
 
   useEffect(() => {
@@ -36,7 +52,6 @@ export function Home() {
   return (
     <>
       <View style={styles.container}>
-       
         <Text style={styles.title}>Welcome, Jeferson</Text>
         <Text style={styles.gretting}>{gretting}</Text>
         <TextInput
@@ -47,14 +62,14 @@ export function Home() {
           value={newSkill}
         />
 
-        <Button Title={'Adicionar'} onPress={handleAddNewSkill} />
+        <Button title={'Adicionar'} onPress={handleAddNewSkill} disabled={!newSkill} />
 
-        <Text style={[styles.title, {marginVertical: 50}]}>My Skills</Text>
+        <Text style={[styles.title, { marginVertical: 50 }]}>My Skills</Text>
 
         <FlatList
           data={mySkills}
-          keyExtractor={item => item}
-          renderItem={({item}) => <SkillCard Title={item} />}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <SkillCard title={item.name} onPress={() => handleRemoveSkill(item.id) } />}
         />
       </View>
     </>

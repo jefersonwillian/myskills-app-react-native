@@ -6,10 +6,10 @@ import {
   SafeAreaView,
   Platform,
   TextInput,
-  TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { Button } from './components/Button';
-import { SkillCard } from './components/SkillCard';
+import {Button} from './components/Button';
+import {SkillCard} from './components/SkillCard';
 
 export function Home() {
   const [newSkill, setNewskill] = useState();
@@ -36,9 +36,13 @@ export function Home() {
 
         <Text style={[styles.title, {marginVertical: 50}]}>My Skills</Text>
 
-        {mySkills.map(skill => (
-          <SkillCard Title={skill} key={skill} />
-        ))}
+        <FlatList
+          data={mySkills}
+          keyExtractor={item => item}
+          renderItem={({ item }) => (
+            <SkillCard Title={item} />
+          )}
+        />
       </View>
     </>
   );
@@ -65,5 +69,5 @@ const styles = StyleSheet.create({
     padding: Platform.OS === 'ios' ? 15 : 10,
     marginTop: 30,
     borderRadius: 7,
-  }, 
+  },
 });

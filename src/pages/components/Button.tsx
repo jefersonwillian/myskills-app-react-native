@@ -5,7 +5,7 @@ interface IButtonProp {
     onPress?: () => void;
     Title: String;
 }
-export function Button({onPress, Title}): IButtonProp {
+export function Button({ onPress, Title }: IButtonProp) {
   return (
     <TouchableOpacity
       style={styles.button}

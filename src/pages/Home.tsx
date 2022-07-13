@@ -12,12 +12,12 @@ import {Button} from './components/Button';
 import {SkillCard} from './components/SkillCard';
 
 export function Home() {
-  const [newSkill, setNewskill] = useState('');
-  const [mySkills, setMySkills] = useState([]);
-  const [gretting, setGretting] = useState('');
+  const [newSkill, setNewskill] = useState<string>();
+  const [mySkills, setMySkills] = useState<Array<string>>([]);
+  const [gretting, setGretting] = useState<string>();
 
   function handleAddNewSkill() {
-    setMySkills(oldState => [...oldState, newSkill]);
+    setMySkills((oldState: Array<any>) => [...oldState, newSkill]);
     setNewskill('');
   }
 
